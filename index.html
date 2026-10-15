@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0c0b0a" />
+  <title>织时 Loom</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="ambient" id="ambient" aria-hidden="true"></div>
+
+  <div class="app">
+    <header class="header">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <h1>织时 <em>Loom</em></h1>
+      </div>
+      <button type="button" class="icon-btn" id="btnSettings" aria-label="设置" title="设置">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </button>
+    </header>
+
+    <nav class="modes" role="tablist" aria-label="计时模式">
+      <button type="button" class="mode-btn is-active" data-mode="focus" role="tab" aria-selected="true">专注</button>
+      <button type="button" class="mode-btn" data-mode="short" role="tab" aria-selected="false">短休</button>
+      <button type="button" class="mode-btn" data-mode="long" role="tab" aria-selected="false">长休</button>
+    </nav>
+
+    <section class="timer-stage" aria-live="polite">
+      <div class="ring-wrap">
+        <div class="ring-glow" id="ringGlow"></div>
+        <svg class="ring" viewBox="0 0 240 240" aria-hidden="true">
+          <circle class="ring-track" cx="120" cy="120" r="104" />
+          <circle class="ring-progress" id="ringProgress" cx="120" cy="120" r="104" />
+        </svg>
+        <div class="time-display">
+          <div class="time" id="timeDisplay">25:00</div>
+          <div class="time-label" id="timeLabel">准备专注</div>
+        </div>
+      </div>
+
+      <div class="session-meta">
+        <span class="pill" id="sessionPill">今日 0 段</span>
+        <span class="pill soft" id="cyclePill">下一：短休</span>
+      </div>
+
+      <div class="intention-wrap">
+        <label class="intention-label" for="intention">此刻意图</label>
+        <input type="text" id="intention" class="intention" maxlength="48" placeholder="例如：改稿、写需求、读论文…" autocomplete="off" />
+      </div>
+
+      <div class="controls">
+        <button type="button" class="ctrl secondary" id="btnReset" aria-label="重置" title="重置 (R)">重置</button>
+        <button type="button" class="ctrl primary" id="btnToggle" aria-label="开始" title="开始/暂停 (空格)">开始</button>
+      </div>
+    </section>
+
+    <section class="log-section" aria-labelledby="logTitle">
+      <div class="log-head">
+        <h2 id="logTitle">今日织就</h2>
+        <button type="button" class="text-btn" id="btnClearLog" hidden>清空</button>
+      </div>
+      <ul class="log-list" id="logList">
+        <li class="log-empty">完成一段专注后，会记在这里</li>
+      </ul>
+    </section>
+  </div>
+
+  <!-- Settings panel -->
+  <div class="overlay" id="settingsOverlay" hidden>
+    <div class="panel" role="dialog" aria-labelledby="settingsTitle" aria-modal="true">
+      <div class="panel-head">
+        <h2 id="settingsTitle">设置</h2>
+        <button type="button" class="icon-btn" id="btnCloseSettings" aria-label="关闭">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="field-grid">
+        <label class="field">
+          <span>专注（分钟）</span>
+          <input type="number" id="setFocus" min="1" max="180" step="1" />
+        </label>
+        <label class="field">
+          <span>短休（分钟）</span>
+          <input type="number" id="setShort" min="1" max="60" step="1" />
+        </label>
+        <label class="field">
+          <span>长休（分钟）</span>
+          <input type="number" id="setLong" min="1" max="90" step="1" />
+        </label>
+      </div>
+
+      <label class="toggle-row">
+        <span>结束后自动开始下一段</span>
+        <input type="checkbox" id="setAutoStart" />
+        <span class="switch" aria-hidden="true"></span>
+      </label>
+
+      <label class="toggle-row">
+        <span>结束提示音</span>
+        <input type="checkbox" id="setSound" />
+        <span class="switch" aria-hidden="true"></span>
+      </label>
+
+      <p class="hint">快捷键：空格 开始/暂停 · R 重置</p>
+      <button type="button" class="ctrl primary full" id="btnSaveSettings">保存</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
